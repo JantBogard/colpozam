@@ -1,0 +1,65 @@
+
+<div class="nav-left-sidebar sidebar-dark">
+    <div class="menu-list">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-divider">
+                        Opérations
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'enregistrerNote' %}">Enregistrer note</a>
+                    </li>
+                    <li class="nav-divider">
+                        Paramètre
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listMatiere' %}">Matière</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listModule' %}">Module</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listClasse' %}">Classe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listSpecialite' %}">Specialite</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listTrimestre' %}">Trimestre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listSequence' %}">Sequence</a>
+                    </li>
+                    
+                    {% if user.is_superuser or user.chefInformatique %}  
+                    <li class="nav-divider">
+                        Administration
+                    </li>
+                    {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listChefInfo' %}">Chef informatique</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listProfesseur' %}">Professeur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listPrincipal' %}">Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listParent' %}">Parent</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listEleve' %}">Eleve</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
