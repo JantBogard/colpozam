@@ -251,6 +251,7 @@ class Note(models.Model):
     sequence = models.ForeignKey(Sequences, on_delete=models.CASCADE, related_name='sequenceNote', blank=True, null=True)
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, related_name='matiereNote')
     eleve = models.ForeignKey(Eleve, models.CASCADE, related_name='eleveNote')
+    classe_n = models.ForeignKey(Classe, models.CASCADE, related_name='classeNote', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

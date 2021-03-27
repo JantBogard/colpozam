@@ -12,6 +12,8 @@ urlpatterns = [
     # ajax url
     url(r'^matiere/choix/ajax/', ajax.select_matiere, name='select_matiere'),
     url(r'^note/show_form/ajax/', ajax.show_form, name='show_form'),
+    url(r'^note/show_form_update/ajax/', ajax.show_form_update, name='show_form_update'),
+    url(r'^note/show_table_note/ajax/', ajax.show_table_note, name='show_table_note'),
 
     # chefInformatique url
     path('listChefInformatique', chefInformatiqueView.chefInformatiqueList, name="listChefInfo"),
@@ -69,5 +71,7 @@ urlpatterns = [
     path('deleteSequence', sequenceView.sequenceDelete, name="deleteSequence"),
 
     # Note url
-    path('EnregistrerNote', noteView.enregistrerNote, name="enregistrerNote")
+    path('EnregistrerNote', noteView.enregistrerNote, name="enregistrerNote"),
+    path('UpdateNote', noteView.noteUpdate, name="updateNote"),
+    path('listNote', noteView.showNote, name="showNote")
 ]

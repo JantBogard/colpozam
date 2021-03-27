@@ -12,20 +12,21 @@
             <input type="hidden" name="sequence" id="sequence" value="{{ sequence }}">
             <input type="hidden" name="classe" id="classe" value="{{ classe }}">
             <input type="hidden" name="matiere" id="matiere" value="{{ matiere }}">
-            <button type="submit"  class="btn btn-primary">Enregistrer</button>
-            {% for eleve in listEleve %}
+            <button type="submit"  class="btn btn-warning">Modifier</button>
+            {% for note in listNote %}
                 <tr>
-                    <td>{{ eleve.nom }} {{ eleve.prenom }}</td>
+                    <td>{{ note.eleve.nom }} {{ note.eleve.prenom }}</td>
                     <td>
-                        <input type="text" name="note" id="note">
-                        <input type="hidden" name="idEleve" id="idEleve" value="{{ eleve.id }}">
+                        <input type="text" name="note" id="note" value="{{ note.codeNote }}">
+                        <input type="hidden" name="idEleve" id="idEleve" value="{{ note.eleve.id }}">
+                        <input type="hidden" name="idNote" id="idNote" value="{{ note.id }}">
                     </td>
                 </tr>
             {% empty %}
                 <tr>
                     <td colspan="8">
                         <center>
-                            <h4>Pas d'eleve enregistrés </h4>
+                            <h4>Pas de note enregistrés </h4>
                         </center>
                     </td>
                 </tr>
