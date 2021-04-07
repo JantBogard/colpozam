@@ -27,7 +27,7 @@ SECRET_KEY = '1dw#bh4gz-6@^(jh=1vlz$&(9c!285u#!71&0rw)yj9@+o^4ys'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['colpozam.herokuapp.com', 'localhost']
 
 
 # Application definition
