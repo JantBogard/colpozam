@@ -158,6 +158,7 @@ class Classe(models.Model):
     libelle_classe = models.CharField('libelle_classe', max_length=200, default="libelle")
     niveau_classe = models.CharField('niveau_classe', max_length=200,blank=True, null=True)
     module = models.ManyToManyField(Modules, related_name='moduleClasse')
+    prof_titulaire = models.ForeignKey(Professeur, on_delete=models.CASCADE, related_name='prof_titulaire',blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -199,6 +200,7 @@ class Eleve(models.Model):
     classe = models.ForeignKey(Classe, on_delete=models.CASCADE, related_name='eleveClasse', blank=True, null=True)
     date_naissance = models.DateTimeField('date_naissance', blank=True, null=True)
     lieu_naissance = models.CharField('lieu_naissance', max_length=200, blank=True, null=True)
+    sexe = models.CharField('sexe', max_length=200, blank=True, null=True)
     is_eleve = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -266,6 +268,9 @@ class Classe_matiere(models.Model):
     classe_m = models.ForeignKey("Classe", verbose_name=_("classe_m"), on_delete=models.CASCADE)
     matiere_c = models.ForeignKey("Matiere", verbose_name=_("matiere_c"), on_delete=models.CASCADE)
     coefficient_Matiere = models.CharField('coefficient_Matiere', max_length=200)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 

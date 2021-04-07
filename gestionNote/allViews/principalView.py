@@ -23,7 +23,7 @@ def principalList(request):
                 # Ici on
                 user = User()
                 user.nom = request.POST.get('nom')
-                user.set_password("ChefInfo1234.")
+                user.set_password("principal1234.")
                 user.prenom = request.POST.get('prenom')
                 user.telephone = request.POST.get('telephone')
                 user.email = request.POST.get('email')

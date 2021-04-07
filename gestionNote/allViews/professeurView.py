@@ -77,6 +77,7 @@ def professeurUpdate(request):
         prenom = request.POST.get('prenom')
         telephone = request.POST.get('telephone')
         email = request.POST.get('email')
+        lesMatieres = request.POST.getlist('matiere')
 
         if professeurQuery and professeurUserQuery:
             professeurUser = User.objects.get(pk=request.POST.get('idUser'))
@@ -95,6 +96,11 @@ def professeurUpdate(request):
                     telephone = telephone,
                     email = email
                 )
+                if lesMatieres:
+                    professeur.professeurMatiere.clear()
+                    for matiere in lesMatieres:
+                        # print(Matiere.objects.get(pk=lesMatieres))
+                        professeur.professeurMatiere.add(Matiere.objects.get(pk=matiere)) 
 
                 msg = "Opération effectuer avec succèss"
                 return render(request, template_name, {'msg': msg, 'listProfesseur': listProfesseur, 'listMatiere': listMatiere})

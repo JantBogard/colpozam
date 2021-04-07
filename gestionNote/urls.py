@@ -8,12 +8,18 @@ urlpatterns = [
     path('login/', views.auth_login, name="login"),
     path('logout/', views.auth_logout, name='logout'),
     path('acceuil/', views.show_home, name="accueil"),
+    path('', views.show_home),
 
     # ajax url
     url(r'^matiere/choix/ajax/', ajax.select_matiere, name='select_matiere'),
+    url(r'^eleve/choix/ajax/', ajax.get_eleve_parent, name='select_eleve_parent'),
+    url(r'^matiereAll/choix/ajax/', ajax.select_matiere_all, name='select_matiere_all'),
     url(r'^note/show_form/ajax/', ajax.show_form, name='show_form'),
     url(r'^note/show_form_update/ajax/', ajax.show_form_update, name='show_form_update'),
     url(r'^note/show_table_note/ajax/', ajax.show_table_note, name='show_table_note'),
+    url(r'^note/show_table_note_enfant/ajax/', ajax.show_table_note_enfant, name='show_table_note_enfant'),
+    url(r'^eleve/show_eleve_classe/ajax/', ajax.get_eleve_classe, name='get_list_eleve'),
+    url(r'^eleve/show_eleve_classe_trim/ajax/', ajax.get_eleve_classe_trim, name='get_list_eleve_trim'),
 
     # chefInformatique url
     path('listChefInformatique', chefInformatiqueView.chefInformatiqueList, name="listChefInfo"),
@@ -40,10 +46,20 @@ urlpatterns = [
     path('updateEleve', eleveView.eleveUpdate, name="updateEleve"),
     path('deleteEleve', eleveView.eleveDelete, name="deleteEleve"),
 
+    # Bulletin url
+    path('listEleveBulletinSeq', eleveView.listEleveBulSeq, name="listEleveBulSeq"),
+    path('listEleveBulletinTrim', eleveView.listEleveBulTrim, name="listEleveBulTrim"),
+
+
     # Matière url
     path('listMatiere', matiereView.matiereList, name="listMatiere"),
     path('updateMatiere', matiereView.matiereUpdate, name="updateMatiere"),
     path('deleteMatiere', matiereView.matiereDelete, name="deleteMatiere"),
+
+    # Classe matière url
+    path('listCoefMatiereClasse', coefMatiereClasseView.listCoefMatiereClasse, name="listCoefMatiereClasse"),
+    path('updateCoefMatiereClasse', coefMatiereClasseView.updateCoefMatiereClasse, name="updateCoefMatiereClasse"),
+    path('deleteCoefMatiereClasse', coefMatiereClasseView.deleteCoefMatiereClasse, name="deleteCoefMatiereClasse"),
 
     # Module url
     path('listModule', moduleView.moduleList, name="listModule"),
@@ -73,5 +89,9 @@ urlpatterns = [
     # Note url
     path('EnregistrerNote', noteView.enregistrerNote, name="enregistrerNote"),
     path('UpdateNote', noteView.noteUpdate, name="updateNote"),
-    path('listNote', noteView.showNote, name="showNote")
+    path('listNote', noteView.showNote, name="showNote"),
+    path('MonEnfant', noteView.showNoteParent, name="showNoteParent"),
+    path('bulletin', noteView.showBulletin, name="showBulletin"),
+    path('bulletinSequentiel', noteView.showBulletinSequentiel, name="bulletinSequentiel"),
+    path('bulletinTrimestrielle', noteView.showBulletinTrimestrielle, name="bulletinTrimestrielle")
 ]

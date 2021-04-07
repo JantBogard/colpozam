@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -84,17 +85,19 @@ WSGI_APPLICATION = 'gestionNoteProject.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'college_pozam_db',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': '',
-        'PORT': '5433',
+if os.environ.get('ENV') == 'PRODUCTION':
+    DATABASES = {'default': dj_database_url.config()}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'college_pozam_db',
+            'USER': 'postgres',
+            'PASSWORD': 'root',
+            'HOST': '',
+            'PORT': '5432',
+        }
     }
-}
 
 
 # Password validation
@@ -150,3 +153,10 @@ ACCOUNT_USER_EMAIL_FIELD = 'email'
 ACCOUNT_LOGOUT_ON_GET = True
 
 AUTH_USER_MODEL = 'gestionNote.User'
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(_file_)))
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)

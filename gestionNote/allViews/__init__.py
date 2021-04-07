@@ -12,3 +12,4 @@ from .trimestreView import *
 from .sequenceView import *
 from .ajax import *
 from .noteView import *
+from .coefMatiereClasseView import *

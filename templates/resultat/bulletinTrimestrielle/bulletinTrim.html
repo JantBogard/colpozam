@@ -1,14 +1,14 @@
 {% extends 'layouts/_bulletin.html' %}
 
 {% block title %}
-    Bulletin | GesNote
+    Bulletin trimestrielle | ColPozam
 {% endblock %}
 
 {% block content %}
     <div class="row" style="margin-top: 3em;">
         <div class="col text-center">
-            <h1>BULLETIN DE NOTES TRIMESTRE 1 /2020-2021</h1>
-            <h2></h2>
+            <h1>BULLETIN DE NOTES TRIMESTRE {{ trimestre.numero_trimestre }} /2020-2021</h1>
+            <h2>{{ classe.codeClasse }}</h2>
         </div>
     </div>
     <div class="row">
@@ -18,18 +18,18 @@
                     <thead>
                         <tr>
                             <th>NOMS ET PRENOMS</th>
-                            <th>NOMS ET PRENOMS</th>
+                            <th>{{ eleve.nom }} {{ eleve.prenom }}</th>
                             <th>SEXE</th>
-                            <th>SEXE</th>
+                            <th>{{ eleve.sexe }}</th>
                             <th>EFFECTIF</th>
                             <th></th>
                             <th></th>
                         </tr>
                         <tr>
                             <th>DATE DE NAISSANCE</th>
-                            <th>DATE DE NAISSANCE</th>
+                            <th>{{ eleve.date_naissance | date:'d/m/Y' }}</th>
                             <th>MATRICULE</th>
-                            <th>MATRICULE</th>
+                            <th>{{ eleve.matricule }}</th>
                             <th>F</th>
                             <th>G</th>
                             <th>T</th>
@@ -38,12 +38,12 @@
                         </tr>
                         <tr>
                             <th>PROF TITULAIRE</th>
-                            <th>PROF TITULAIRE</th>
+                            <th>{{ classe.prof_titulaire.professeurUser.nom }} {{ classe.prof_titulaire.professeurUser.prenom }}</th>
                             <th>REDOUBLANT</th>
-                            <th>REDOUBLANT</th>
-                            <th>F</th>
-                            <th>G</th>
-                            <th>T</th>
+                            <th>N</th>
+                            <th>{{ f }}</th>
+                            <th>{{ g }}</th>
+                            <th>{{ t }}</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -51,9 +51,9 @@
                     <tbody class="text-center">
                         <tr>
                             <td rowspan="2"><strong>MATIERES</strong></td>
-                            <td rowspan="2"><strong>T1S1</strong></td>
-                            <td rowspan="2"><strong>T1S2</strong></td>
-                            <td colspan="4">TRIMESTRE 1</td>
+                            <td rowspan="2"><strong>T{{ trimestre.numero_trimestre }}S{{ seq1 }}</strong></td>
+                            <td rowspan="2"><strong>T{{ trimestre.numero_trimestre }}S{{ seq1 }}</strong></td>
+                            <td colspan="4">TRIMESTRE {{ trimestre.numero_trimestre }}</td>
                             <td colspan="3">NOTE CLASSE</td>
                             <td rowspan="2" colspan="2">ENSEIGNANT</td>
                         </tr>
@@ -66,74 +66,78 @@
                             <td>MOY</td>
                             <td>MAX</td>
                         </tr>
-                        <tr>
-                            <td>Nom matière</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>les modules</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
+                        {% for bulletin_module in table_modules %}
+                            {% for bulletin in tables %}
+                                {% if bulletin.module == bulletin_module.nom_module %}
+                                    <tr>
+                                        <td>{{ bulletin.matiere }}</td>
+                                        <td>{{ bulletin.t1s1 }}</td>
+                                        <td>{{ bulletin.t1s2 }}</td>
+                                        <td>{{ bulletin.note }}</td>
+                                        <td>{{ bulletin.coef }}</td>
+                                        <td>{{ bulletin.noteCoef }}</td>
+                                        <td>{{ bulletin.rang }}</td>
+                                        <td>{{ bulletin.min }}</td>
+                                        <td>{{ bulletin.moy }}</td>
+                                        <td>{{ bulletin.max }}</td>
+                                        <td colspan="2">{{ bulletin.prof }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            <tr>
+                                <th>Matières {{ bulletin_module.nom_module }}</th>
+                                <th>{{ bulletin_module.t1s1 }}</th>
+                                <th>{{ bulletin_module.t1s2 }}</th>
+                                <th>{{ bulletin_module.note }}</th>
+                                <th>{{ bulletin_module.coef }}</th>
+                                <th>{{ bulletin_module.noteCoef }}</th>
+                                <th>{{ bulletin_module.moy_module | floatformat:-2 }}</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th colspan="2"></th>
+                            </tr>
+                        {% endfor %}
                         <tr>
                             <th colspan="3">RAPPELS MOYENNES</th>
-                            <th colspan="3">TRAVAIL TRIMESTRE 1</th>
-                            <th colspan="3">CONDUITES TRIMESTRE 1</th>
+                            <th colspan="3">TRAVAIL TRIMESTRE {{ trimestre.numero_trimestre }}</th>
+                            <th colspan="3">CONDUITES TRIMESTRE {{ trimestre.numero_trimestre }}</th>
                             <th colspan="3">CONSEIL DE CLASSE</th>
                         </tr>
                         <tr>
-                            <td colspan="2">Trimestre 1</td>
+                            <td colspan="2">Trimestre {{ trimestre.numero_trimestre }}</td>
                             <td></td>
                             <td colspan="2">TOTAL POINTS</td>
-                            <td></td>
+                            <td>{{ total_point }}</td>
                             <td colspan="2">ABS. TOTAL</td>
                             <td></td>
                             <td colspan="2">AVERT. TRAVAIL</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="2">Trimestre 2</td>
-                            <td></td>
+                            <td colspan="2">Trimestre {{ trimestre.numero_trimestre }}</td>
+                            <td>{{ moy | floatformat:-2 }}</td>
                             <td colspan="2">TOTAL COEFS</td>
-                            <td></td>
+                            <td>{{ total_coef }}</td>
                             <td colspan="2">ABS. NON JUST</td>
                             <td></td>
                             <td colspan="2">BLAME TRAVAIL</td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="2">Trimestre 3</td>
+                            <td colspan="2">Trimestre {{ trimestre.numero_trimestre }}</td>
                             <td></td>
-                            <td colspan="2">MOY. TRIMESTRE 1</td>
-                            <td></td>
+                            <td colspan="2">MOY. TRIMESTRE {{ trimestre.numero_trimestre }}</td>
+                            <td>{{ moy | floatformat:-2 }}</td>
                             <td colspan="2">EXCLUSION(jrs.)</td>
                             <td></td>
                             <td colspan="2">TABLEAU D'HONNEUR</td>
-                            <td></td>
+                            <td>{{ tableau_honneur }}</td>
                         </tr>
                         <tr>
                             <td colspan="2">ANNUELLE</td>
                             <td></td>
-                            <td colspan="2">RANG TRIMESTRE 1</td>
+                            <td colspan="2">RANG TRIMESTRE {{ trimestre.numero_trimestre }}</td>
                             <td></td>
                             <td colspan="2">EXCLUSION(hrs.)</td>
                             <td></td>
@@ -143,14 +147,14 @@
                         <tr>
                             <td colspan="3" rowspan="2"></td>
                             <td colspan="2">NBRE MATIERES</td>
-                            <td></td>
+                            <td>{{ nbr_matiere }}</td>
                             <td colspan="2">AVERT. CONDUITE</td>
                             <td></td>
                             <td colspan="2">FELICITATION</td>
                             <td></td>
                         </tr>
                             <td colspan="2">MOY. CLASSE</td>
-                            <td></td>
+                            <td>{{ moyClasse | floatformat:-2 }}</td>
                             <td colspan="2">BLAME CONDUITE</td>
                             <td></td>
                             <td colspan="2"></td>

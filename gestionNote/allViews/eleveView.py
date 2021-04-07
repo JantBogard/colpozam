@@ -25,6 +25,7 @@ def eleveList(request):
             eleve.nom = request.POST.get('nom')
             eleve.prenom = request.POST.get('prenom')
             eleve.matricule = request.POST.get('matricule')
+            eleve.sexe = request.POST.get('sexe')
             eleve.date_naissance = request.POST.get('date_naissance')
             eleve.lieu_naissance = request.POST.get('lieu_naissance')
             if request.POST.get('parent'):
@@ -38,7 +39,7 @@ def eleveList(request):
             return render(request, template_name, {'listEleve': listEleve, 'listParent': listParent, 'listClasse': listClasse, 'msg': msg})
         else:
             error = "Ce matricule est déjà associé à un élève"
-            return render(request, template_name, {'listEleve': listEleve, 'listParent': listParent, 'listClasse': listClasse, 'error': error, 'nom': request.POST.get('nom'), 'prenom': request.POST.get('prenom'), 'matricule': request.POST.get('matricule'), 'date_naissance': request.POST.get('date_naissance'), 'lieu_naissance': request.POST.get('lieu_naissance'), 'parentEleve': request.POST.get('parent'), 'classeEleve': request.POST.get('classe')})
+            return render(request, template_name, {'listEleve': listEleve, 'listParent': listParent, 'listClasse': listClasse, 'error': error, 'nom': request.POST.get('nom'), 'prenom': request.POST.get('prenom'), 'matricule': request.POST.get('matricule'), 'date_naissance': request.POST.get('date_naissance'), 'lieu_naissance': request.POST.get('lieu_naissance'), 'parentEleve': request.POST.get('parent'), 'classeEleve': request.POST.get('classe'), 'sexe': request.POST.get('sexe')})
     else:
         return render(request, template_name, {'listEleve': listEleve, 'listParent': listParent, 'listClasse': listClasse})
 
@@ -64,13 +65,14 @@ def eleveUpdate(request):
         lieu_naissance = request.POST.get('lieu_naissance')
         parent = request.POST.get('parent')
         classe = request.POST.get('classe')
+        sexe = request.POST.get('sexe')
 
         if eleveQuery:
             eleve = Eleve.objects.get(pk=request.POST.get('id'))
 
             if Eleve.objects.filter(Q(matricule=matricule) & ~Q(pk=eleve.id)):
                 error = "Impossible de modifier le matricule: "+matricule+" est déjà lié à un élève. Veuillez choisir un autre matricule"
-                return render(request, template_name, {'error': error, 'nom': nom, 'prenom': prenom, 'matricule': matricule, 'date_naissance': date_naissance, 'lieu_naissance': lieu_naissance, 'parentEleve': parent, 'classeEleve': classe, 'listEleve': listEleve, 'listParent': listParent, 'listClasse': listClasse})
+                return render(request, template_name, {'error': error, 'nom': nom, 'prenom': prenom, 'matricule': matricule, 'date_naissance': date_naissance, 'lieu_naissance': lieu_naissance, 'parentEleve': parent, 'sexe': sexe, 'classeEleve': classe, 'listEleve': listEleve, 'listParent': listParent, 'listClasse': listClasse})
             else:
                 if request.POST.get('classe'):
                     Eleve.objects.filter(pk=request.POST.get('id')).update(
@@ -79,6 +81,7 @@ def eleveUpdate(request):
                         matricule = matricule,
                         date_naissance = date_naissance,
                         lieu_naissance = lieu_naissance,
+                        sexe = sexe,
                         parentEleve = Parent.objects.get(pk=int(parent)),
                         classe = Classe.objects.get(pk=int(classe))
                     )
@@ -89,6 +92,7 @@ def eleveUpdate(request):
                         matricule = matricule,
                         date_naissance = date_naissance,
                         lieu_naissance = lieu_naissance,
+                        sexe = sexe,
                         parentEleve = Parent.objects.get(pk=int(parent))
                     )
 
@@ -132,3 +136,18 @@ def eleveDelete(request):
     else:
         return render(request, template_name, {'listEleve': listEleve, 'listParent': listParent, 'listClasse': listClasse})
 
+
+@login_required(login_url="/login/")
+def listEleveBulSeq(request):
+    tempale_name = 'resultat/bulletinSequentielle/listEleveBulSeq.html'
+    listClasse = Classe.objects.filter(is_active=True)
+
+    return render(request, tempale_name, {'listClasse': listClasse})
+
+
+@login_required(login_url="/login/")
+def listEleveBulTrim(request):
+    tempale_name = 'resultat/bulletinTrimestrielle/listEleveBulTrim.html'
+    listClasse = Classe.objects.filter(is_active=True)
+
+    return render(request, tempale_name, {'listClasse': listClasse})
