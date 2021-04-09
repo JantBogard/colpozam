@@ -23,18 +23,16 @@ def tri_selection(notes):
     return notes
 
 def tri_selection_trim(notes):
-    
     for i in range(len(notes)):
         max = i
         
         for j in range(i+1, len(notes)):
             if float(notes[max]['codeNote']) < float(notes[j]['codeNote']):
                 max = j
-                    
+                  
         tmp = notes[i]
         notes[i] = notes[max]
         notes[max] = tmp
-
     return notes
     
 
@@ -58,23 +56,25 @@ def calculRang(matiere, classe, sequence, eleve):
 
 def calculRangTrim(matiere, classe, trimestre, eleve):
     
-    notes1 = Note.objects.filter(is_active=True)
-    notes2 = Note.objects.filter(is_active=True)
-    if trimestre.numero_trimestre == 1:
+    if trimestre.numero_trimestre == "1":
         notes1 = Note.objects.filter(sequence=1, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=2, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 2:
+    elif trimestre.numero_trimestre == "2":
         notes1 = Note.objects.filter(sequence=3, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=4, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 3:
+    elif trimestre.numero_trimestre == "3":
         notes1 = Note.objects.filter(sequence=5, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=6, matiere=matiere, classe_n=classe)
+    else:
+        notes1 = []
+        notes2 = []
     tab = list()
     trim = dict()
     count = 0
     i = 0
 
     for note1 in notes1:
+        trim = {}
         for note2 in notes2:
             if note1.eleve.id == note2.eleve.id:
                 trim['eleve'] = note1.eleve
@@ -93,12 +93,14 @@ def calculRangTrim(matiere, classe, trimestre, eleve):
 def min_note(matiere, classe, sequence):
     notes = Note.objects.filter(sequence=sequence, matiere=matiere, classe_n=classe)
     tab = list()
+    count = 0
 
     for note in notes:
         tab.append(note)
+        count += 1
     tri_selection(tab)
 
-    return tab[0].codeNote
+    return float(tab[count-1].codeNote)
 
 def moy_note(matiere, classe, sequence):
     notes = Note.objects.filter(sequence=sequence, matiere=matiere, classe_n=classe)
@@ -113,56 +115,55 @@ def moy_note(matiere, classe, sequence):
 def max_note(matiere, classe, sequence):
     notes = Note.objects.filter(sequence=sequence, matiere=matiere, classe_n=classe)
     tab = list()
-    count = 0
 
     for note in notes:
         tab.append(note)
-        count += 1
     tri_selection(tab)
 
-    return float(tab[count-1].codeNote)
+    return tab[0].codeNote
 
 def min_note_trim(matiere, classe, trimestre):
-    
-    notes1 = Note.objects.filter(is_active=True)
-    notes2 = Note.objects.filter(is_active=True)
-    if trimestre.numero_trimestre == 1:
+    if trimestre.numero_trimestre == "1":
         notes1 = Note.objects.filter(sequence=1, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=2, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 2:
+    elif trimestre.numero_trimestre == "2":
         notes1 = Note.objects.filter(sequence=3, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=4, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 3:
+    elif trimestre.numero_trimestre == "3":
         notes1 = Note.objects.filter(sequence=5, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=6, matiere=matiere, classe_n=classe)
+    else:
+        notes1 = []
+        notes2 = []
     tab = list()
     trim = dict()
     count = 0
 
     for note1 in notes1:
+        trim = {}
         for note2 in notes2:
             if note1.eleve.id == note2.eleve.id:
                 trim['eleve'] = note1.eleve
                 trim['codeNote'] = (float(note1.codeNote) + float(note2.codeNote))/2
                 tab.append(trim)
-
+                count += 1
     tri_selection_trim(tab)
-
-    return tab[0]['codeNote']
+    return float(tab[count-1]['codeNote'])
 
 def moy_note_trim(matiere, classe, trimestre):
     
-    notes1 = Note.objects.filter(is_active=True)
-    notes2 = Note.objects.filter(is_active=True)
-    if trimestre.numero_trimestre == 1:
+    if trimestre.numero_trimestre == "1":
         notes1 = Note.objects.filter(sequence=1, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=2, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 2:
+    elif trimestre.numero_trimestre == "2":
         notes1 = Note.objects.filter(sequence=3, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=4, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 3:
+    elif trimestre.numero_trimestre == "3":
         notes1 = Note.objects.filter(sequence=5, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=6, matiere=matiere, classe_n=classe)
+    else:
+        notes1 = []
+        notes2 = []
     moy = 0
 
     for note1 in notes1:
@@ -176,22 +177,24 @@ def moy_note_trim(matiere, classe, trimestre):
 
 def max_note_trim(matiere, classe, trimestre):
     
-    notes1 = Note.objects.filter(is_active=True)
-    notes2 = Note.objects.filter(is_active=True)
-    if trimestre.numero_trimestre == 1:
+    if trimestre.numero_trimestre == "1":
         notes1 = Note.objects.filter(sequence=1, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=2, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 2:
+    elif trimestre.numero_trimestre == "2":
         notes1 = Note.objects.filter(sequence=3, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=4, matiere=matiere, classe_n=classe)
-    elif trimestre.numero_trimestre == 3:
+    elif trimestre.numero_trimestre == "3":
         notes1 = Note.objects.filter(sequence=5, matiere=matiere, classe_n=classe)
         notes2 = Note.objects.filter(sequence=6, matiere=matiere, classe_n=classe)
+    else:
+        notes1 = []
+        notes2 = []
     tab = list()
     trim = dict()
     count = 0
 
     for note1 in notes1:
+        trim = {}
         for note2 in notes2:
             if note1.eleve.id == note2.eleve.id:
                 trim['eleve'] = note1.eleve
@@ -200,7 +203,7 @@ def max_note_trim(matiere, classe, trimestre):
                 count += 1
     tri_selection_trim(tab)
 
-    return float(tab[count-1]['codeNote'])
+    return tab[0]['codeNote']
 
 def calRangGen(classe, sequence, currentEleve, matieres_coef):
     temp = dict()
@@ -284,15 +287,18 @@ def calRangGenTrim(classe, trimestre, currentEleve, matieres_coef):
     count = 0
 
     for eleve in listEleve:
-        if trimestre.numero_trimestre == 1:
+        if trimestre.numero_trimestre == "1":
             listNote1 = Note.objects.filter(sequence=1, eleve=eleve)
             listNote2 = Note.objects.filter(sequence=2, eleve=eleve)
-        elif trimestre.numero_trimestre == 2:
+        elif trimestre.numero_trimestre == "2":
             listNote1 = Note.objects.filter(sequence=3, eleve=eleve)
             listNote2 = Note.objects.filter(sequence=4, eleve=eleve)
-        elif trimestre.numero_trimestre == 3:
+        elif trimestre.numero_trimestre == "3":
             listNote1 = Note.objects.filter(sequence=5, eleve=eleve)
             listNote2 = Note.objects.filter(sequence=6, eleve=eleve)
+        else:
+            listNote1 = []
+            listNote2 = []
         temp = {}
         temp['eleve'] = eleve
         tNote = 0.0
@@ -301,9 +307,9 @@ def calRangGenTrim(classe, trimestre, currentEleve, matieres_coef):
             for note2 in listNote2:
                 if note1.matiere.id == note2.matiere.id:
                     for coef in matieres_coef:
-                        if coef.matiere_c.id == note.matiere.id:
+                        if coef.matiere_c.id == note1.matiere.id:
                             tcoef += float(coef.coefficient_Matiere)
-                            tNote += (float(note1.codeNote) + float(note2.codeNote)) * float(coef.coefficient_Matiere)
+                            tNote += ((float(note1.codeNote) + float(note2.codeNote))/2) * float(coef.coefficient_Matiere)
         if tcoef != 0:
             temp['moy'] = tNote/tcoef
         else:
@@ -328,6 +334,43 @@ def calRangGenTrim(classe, trimestre, currentEleve, matieres_coef):
 
     return count
 
+def calMoyTrim(classe, trimestre, currentEleve, matieres_coef):
+    temp = dict()
+    tab = list()
+    tcoef = 0.0
+    tNote = 0.0
+    count = 0
+
+    if trimestre.numero_trimestre == "1":
+        listNote1 = Note.objects.filter(sequence=1, eleve=currentEleve)
+        listNote2 = Note.objects.filter(sequence=2, eleve=currentEleve)
+    elif trimestre.numero_trimestre == "2":
+        listNote1 = Note.objects.filter(sequence=3, eleve=currentEleve)
+        listNote2 = Note.objects.filter(sequence=4, eleve=currentEleve)
+    elif trimestre.numero_trimestre == "3":
+        listNote1 = Note.objects.filter(sequence=5, eleve=currentEleve)
+        listNote2 = Note.objects.filter(sequence=6, eleve=currentEleve)
+    else:
+        listNote1 = []
+        listNote2 = []
+    temp = {}
+    temp['eleve'] = eleve
+    tNote = 0.0
+    tcoef = 0.0
+    for note1 in listNote1:
+        for note2 in listNote2:
+            if note1.matiere.id == note2.matiere.id:
+                for coef in matieres_coef:
+                    if coef.matiere_c.id == note1.matiere.id:
+                        tcoef += float(coef.coefficient_Matiere)
+                        tNote += (float(note1.codeNote) + float(note2.codeNote)) * float(coef.coefficient_Matiere)
+    if tcoef != 0:
+        temp['moy'] = tNote/tcoef
+    else:
+        temp['moy'] = 0
+
+    return tNote/tcoef
+
 def calMoyClasseTrim(classe, trimestre, matieres_coef):
     temp = dict()
     tab = list()
@@ -339,15 +382,18 @@ def calMoyClasseTrim(classe, trimestre, matieres_coef):
 
     for eleve in listEleve:
         televe += 1
-        if trimestre.numero_trimestre == 1:
+        if trimestre.numero_trimestre == "1":
             listNote1 = Note.objects.filter(sequence=1, eleve=eleve, classe_n=classe)
             listNote2 = Note.objects.filter(sequence=2, eleve=eleve, classe_n=classe)
-        elif trimestre.numero_trimestre == 2:
+        elif trimestre.numero_trimestre == "2":
             listNote1 = Note.objects.filter(sequence=3, eleve=eleve, classe_n=classe)
             listNote2 = Note.objects.filter(sequence=4, eleve=eleve, classe_n=classe)
-        elif trimestre.numero_trimestre == 3:
+        elif trimestre.numero_trimestre == "3":
             listNote1 = Note.objects.filter(sequence=5, eleve=eleve, classe_n=classe)
             listNote2 = Note.objects.filter(sequence=6, eleve=eleve, classe_n=classe)
+        else:
+            listNote1 = []
+            listNote2 = []
         temp = {}
         temp['eleve'] = eleve
         for note1 in listNote1:
@@ -356,7 +402,7 @@ def calMoyClasseTrim(classe, trimestre, matieres_coef):
                     for coef in matieres_coef:
                         if coef.matiere_c.id == note1.matiere.id:
                             tcoef += int(coef.coefficient_Matiere)
-                            tNote += (float(note1.codeNote) + float(note2.codeNote)) * float(coef.coefficient_Matiere)
+                            tNote += ((float(note1.codeNote) + float(note2.codeNote))/2) * int(coef.coefficient_Matiere)
         if tcoef != 0:
             temp['moy'] = tNote/tcoef
         else:
@@ -586,23 +632,28 @@ def showBulletinTrimestrielle(request):
         matieres_coef = Classe_matiere.objects.filter(classe_m=classe)
         modules = classe.module.all()
         prof_titulaire = classe.prof_titulaire
-        listNote1 = Note.objects.filter(is_active=True)
-        listNote2 = Note.objects.filter(is_active=True)
-        if trimestre.numero_trimestre == 1:
+        if trimestre.numero_trimestre == "1":
+            print('seq 1')
             listNote1 = Note.objects.filter(sequence=1, eleve=eleve, classe_n=classe)
             listNote2 = Note.objects.filter(sequence=2, eleve=eleve, classe_n=classe)
             seq1 = 1
             seq2 = 2
-        elif trimestre.numero_trimestre == 2:
+        elif trimestre.numero_trimestre == "2":
+            print('seq 2')
             listNote1 = Note.objects.filter(sequence=3, eleve=eleve, classe_n=classe)
             listNote2 = Note.objects.filter(sequence=4, eleve=eleve, classe_n=classe)
             seq1 = 3
             seq2 = 4
-        elif trimestre.numero_trimestre == 3:
+        elif trimestre.numero_trimestre == "3":
+            print('seq 3')
             listNote1 = Note.objects.filter(sequence=5, eleve=eleve, classe_n=classe)
             listNote2 = Note.objects.filter(sequence=6, eleve=eleve, classe_n=classe)
             seq1 = 5
             seq2 = 6
+        else:
+            print('seq 0')
+            listNote1 = []
+            listNote2 = []
             
 
         listEleve = Eleve.objects.filter(classe=classe, is_active=True)
@@ -625,7 +676,10 @@ def showBulletinTrimestrielle(request):
             for note1 in listNote1:
                 for note2 in listNote2:
                     bulletin = {}
-                    if note1.matiere.module.id == module.id and note2.matiere.module.id == module.id:
+                    if note1.matiere.module.id == module.id and note2.matiere.id == note1.matiere.id:
+                        print(note1.codeNote)
+                        print("---------------------------------------------------")
+                        print(note2.codeNote)
                         bulletin['module'] = module.nom_module
                         bulletin['matiere'] = note1.matiere.nom_Matiere
                         nbr_matiere += 1
@@ -674,8 +728,28 @@ def showBulletinTrimestrielle(request):
         else:
             tableau_honneur = 'NON'
 
+        if trimestre.numero_trimestre == "1":
+            print('seq 1')
+            moy1 = 0
+            moy2 = 0
+        elif trimestre.numero_trimestre == "2":
+            print('seq 2')
+            moy1 = calMoyTrim(classe, Trimestre.objects.get(numero_trimestre="1"), eleve, matieres_coef)
+            moy2 = 0
+        elif trimestre.numero_trimestre == "3":
+            print('seq 3')
+            moy1 = calMoyTrim(classe, Trimestre.objects.get(numero_trimestre="1"), eleve, matieres_coef)
+            moy2 = calMoyTrim(classe, Trimestre.objects.get(numero_trimestre="2"), eleve, matieres_coef)
+        else:
+            print('seq 0')
+            moy1 = 0
+            moy2 = 0
 
-        return render(request, templare_name, {'seq1': seq1,'seq2': seq2,'temp_note_s1': temp_note_s1,'temp_note_s2': temp_note_s2,'tableau_honneur': tableau_honneur, 'moyClasse': moyClasse, 'rang': rang, 'total_point': total_point, 'total_coef': total_coef, 'moy': moy, 'nbr_matiere': nbr_matiere, 'tables': table, 'table_modules': table_module, 'trimestre': trimestre, 'matieres_coef': matieres_coef, 'modules': modules, 'listNote': listNote, 'classe': classe, 'eleve': eleve, 'f': f, 'g': g, 't': t})
+        annuelle = (moy + moy1 + moy2)/3
+            
+
+
+        return render(request, templare_name, {'annuelle': annuelle, 'moy1': moy1, 'moy2': moy2, 'seq1': seq1,'seq2': seq2,'temp_note_s1': temp_note_s1,'temp_note_s2': temp_note_s2,'tableau_honneur': tableau_honneur, 'moyClasse': moyClasse, 'rang': rang, 'total_point': total_point, 'total_coef': total_coef, 'moy': moy, 'nbr_matiere': nbr_matiere, 'tables': table, 'table_modules': table_module, 'trimestre': trimestre, 'matieres_coef': matieres_coef, 'modules': modules, 'classe': classe, 'eleve': eleve, 'f': f, 'g': g, 't': t})
 
 
 

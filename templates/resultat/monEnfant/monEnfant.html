@@ -102,7 +102,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div style="float: right;">
+                        <div id="buttonSubmit" style="float: right;">
                             <button type="submit" class="btn btn-primary">Continuer</button>
                         </div>
                     </form>
@@ -148,6 +148,7 @@
                 },
                 success: function (data) {
                     console.log(data);
+                    $("#buttonSubmit").hide();
                     $("#note_content").html(data);
                 }
             })
